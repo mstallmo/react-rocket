@@ -1,2 +1,3 @@
-# rocket-react
-Rust crate that makes building React websites with Rocket more ergonomic
+# Rocket React :rocket: ⚛️
+
+Make Building React apps with Rocket a more ergonomic expirence
