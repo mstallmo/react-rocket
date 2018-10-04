@@ -1,8 +1,10 @@
 [package]
 name = "rocket_igniter"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["Mason Stallmo <masonstallmo@gmail.com>"]
 edition = "2018"
+license = "MIT"
+description = "A Rocket.rs fairing for a better development experience when using React and WebPack"
 
 [dependencies]
 rocket = "0.3.16"
