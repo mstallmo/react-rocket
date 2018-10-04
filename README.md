@@ -1,3 +1,3 @@
-# React Rocket ⚛️ :rocket:
+# Rocket Igniter 💨 🔥
 
-Make building React apps with Rocket a more ergonomic experience
+A Rocket.rs fairing for a better development experience when using React and WebPack
