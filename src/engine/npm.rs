@@ -1,15 +1,15 @@
 use rocket::config::Environment;
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::Rocket;
-use std::process::{Command, Stdio};
+use std::process::Command;
 
 #[derive(Default)]
-pub struct Yarn;
+pub struct NPM;
 
-impl Fairing for Yarn {
+impl Fairing for NPM {
     fn info(&self) -> Info {
         Info {
-            name: "Run yarn start on development startup",
+            name: "Run npm start on development startup",
             kind: Kind::Launch,
         }
     }
@@ -18,12 +18,11 @@ impl Fairing for Yarn {
         match rocket.config().environment {
             Environment::Development => {
                 info!("💨  Ignition sequence start...");
-                Command::new("yarn")
+                Command::new("npm")
                     .current_dir("./app")
                     .arg("start")
-                    .stdout(Stdio::null())
                     .spawn()
-                    .expect("yarn failed");
+                    .expect("npm failed");
                 info!("🔥  All engines running!");
             }
             _ => (),
