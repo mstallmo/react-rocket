@@ -1,7 +1,7 @@
 use rocket::config::Environment;
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::Rocket;
-use std::process::{Command, Stdio};
+use std::process::Command;
 
 #[derive(Default)]
 pub struct NPM;
@@ -21,7 +21,6 @@ impl Fairing for NPM {
                 Command::new("npm")
                     .current_dir("./app")
                     .arg("start")
-                    .stdout(Stdio::null())
                     .spawn()
                     .expect("npm failed");
                 info!("🔥  All engines running!");
