@@ -1,4 +1,4 @@
-#![feature(plugin, decl_macro, proc_macro_non_items)]
+#![feature(plugin, decl_macro)]
 
 extern crate rocket;
 #[macro_use]
