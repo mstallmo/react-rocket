@@ -9,3 +9,6 @@ description = "A Rocket.rs fairing for a better development experience when usin
 [dependencies]
 rocket = "0.3"
 log = "0.4"
+
+[badges]
+travis-ci = { repository = "mstallmo/rocket_igniter"}
