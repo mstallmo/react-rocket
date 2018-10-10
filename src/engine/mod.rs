@@ -2,6 +2,7 @@ use rocket::config::Environment;
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::Rocket;
 use std::process::Command;
+use std::io;
 
 pub enum CliCommand {
     NPM,
@@ -30,19 +31,17 @@ impl Engine {
         }
     }
 
-    pub fn run_command(&self, environment: Environment) {
+    pub fn run_command(&self, environment: Environment) -> Result<(), io::Error> {
         match environment {
             Environment::Development => {
-                info!("💨  Ignition sequence start...");
                 Command::new(self.command)
                     .current_dir(self.current_dir)
                     .arg(self.arg)
-                    .spawn()
-                    .expect(&format!("{} failed", self.command));
-                info!("🔥  All engines running!");
+                    .spawn()?;
             }
             _ => (),
         };
+        Ok(())
     }
 }
 
@@ -55,6 +54,10 @@ impl Fairing for Engine {
     }
 
     fn on_launch(&self, rocket: &Rocket) {
-        self.run_command(rocket.config().environment);
+        info!("💨  Ignition sequence start...");
+        match self.run_command(rocket.config().environment) {
+            Ok(_) => info!("🔥  All engines running!"),
+            Err(e) => warn!("{}", e)
+        };
     }
 }
