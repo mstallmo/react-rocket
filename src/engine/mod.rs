@@ -31,17 +31,17 @@ impl Engine {
         }
     }
 
-    pub fn run_command(&self, environment: Environment) -> Result<(), io::Error> {
+    pub fn run_command(&self, environment: Environment) -> Result<&'static str, io::Error> {
         match environment {
             Environment::Development => {
                 Command::new(self.command)
                     .current_dir(self.current_dir)
                     .arg(self.arg)
                     .spawn()?;
+                Ok("🔥  All engines running!")
             }
-            _ => (),
-        };
-        Ok(())
+            _ => Ok("  Not in Developmnet...Skipping"),
+        }
     }
 }
 
@@ -56,8 +56,21 @@ impl Fairing for Engine {
     fn on_launch(&self, rocket: &Rocket) {
         info!("💨  Ignition sequence start...");
         match self.run_command(rocket.config().environment) {
-            Ok(_) => info!("🔥  All engines running!"),
+            Ok(v) => info!("{}", v),
             Err(e) => warn!("{}", e)
         };
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+
+    #[test]
+    fn it_should_do_nothing_outside_of_development() {
+        let engine = Engine::new(CliCommand::NPM);
+        let status = engine.run_command(Environment::Production);
+        assert!(status.is_ok(), "🔥  All engines running!");
+    } 
 }
