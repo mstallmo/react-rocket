@@ -40,7 +40,7 @@ impl Engine {
                     .spawn()?;
                 Ok("🔥  All engines running!")
             }
-            _ => Ok("  Not in Developmnet...Skipping"),
+            _ => Ok("  Not in Development...Skipping"),
         }
     }
 }
@@ -66,11 +66,22 @@ impl Fairing for Engine {
 mod tests {
     use super::*;
 
-
     #[test]
     fn it_should_do_nothing_outside_of_development() {
         let engine = Engine::new(CliCommand::NPM);
         let status = engine.run_command(Environment::Production);
-        assert!(status.is_ok(), "🔥  All engines running!");
+
+        assert!(status.is_ok());
+        match status {
+            Ok(v) => assert_eq!(v, "  Not in Development...Skipping"),
+            _ => ()
+        };
+    }
+
+    #[test]
+    fn it_should_return_err_on_bad_configuration() {
+        let broken_engine = Engine{command: "not-npm", current_dir: "./app", arg: "start"};
+        let status = broken_engine.run_command(Environment::Development);
+        assert!(status.is_err());
     } 
 }
