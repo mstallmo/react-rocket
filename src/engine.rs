@@ -31,6 +31,13 @@ impl Engine {
         }
     }
 
+    fn get_app_dir_config(config: &Config) -> Option<String> {
+        match config.get_str("igniter_app_dir") {
+            Ok(v) => Some(v.to_string()),
+            Err(_) => None,
+        }
+    }
+
     fn get_arg_config(config: &Config) -> Option<String> {
         match config.get_str("igniter_arg") {
             Ok(v) => Some(v.to_string()),
@@ -41,13 +48,18 @@ impl Engine {
     pub fn run_command(&self, config: &Config) -> Result<&'static str, io::Error> {
         match config.environment {
             Environment::Development => {
+                let current_dir = match Engine::get_app_dir_config(config) {
+                    Some(v) => v,
+                    None => self.current_dir.to_string(),    
+                };
+
                 let arg = match Engine::get_arg_config(config) {
                     Some(v) => v,
                     None => self.arg.to_string(),
                 };
 
                 Command::new(self.command)
-                    .current_dir(self.current_dir)
+                    .current_dir(current_dir)
                     .arg("run")
                     .arg(arg)
                     .spawn()?;
@@ -101,6 +113,18 @@ mod tests {
         let status = broken_engine.run_command(&Config::new(Environment::Development).expect("cwd"));
         assert!(status.is_err());
     }
+
+    #[test]
+    fn it_should_parse_app_dir_from_rocket_toml() {
+        let rocket = rocket::ignite();
+        let igniter_config = Engine::get_app_dir_config(rocket.config());
+        assert!(igniter_config.is_some());
+        match igniter_config {
+            Some(v) => assert_eq!(v, "test_app_dir_config"),
+            None => (),
+        }
+    }
+
     #[test]
     fn it_should_parse_arg_from_rocket_toml() {
         let rocket = rocket::ignite();
