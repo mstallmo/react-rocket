@@ -1,0 +1,5 @@
+#This Rocket.toml file is used for unit testing the Engine reading from config
+
+[development]
+igniter_app_dir = "test_app_dir_config"
+igniter_arg = "test_arg_config"
