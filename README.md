@@ -68,7 +68,7 @@ As this project is just maintained by me we don't have an offical gitter or disc
 
 ## Code of Conduct
 Anyone who interacts with Diesel in any space, including but not limited to
-this GitHub repository, must follow our [code of conduct](https://github.com/mstallmo/rocket_igniter/blob/master/code_of_conduct.md).
+this GitHub repository, must follow our [code of conduct](https://github.com/mstallmo/rocket_igniter/blob/master/CODE_OF_CONDUCT.md).
 
 
 ## License
