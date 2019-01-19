@@ -7,7 +7,7 @@ license = "MIT/Apache 2.0"
 description = "A Rocket.rs fairing for a better development experience when using React and WebPack"
 
 [dependencies]
-rocket = "0.3"
+rocket = "0.4"
 log = "0.4"
 
 [badges]
