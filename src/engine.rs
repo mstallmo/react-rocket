@@ -102,7 +102,7 @@ mod tests {
     #[test]
     fn it_should_do_nothing_outside_of_development() {
         let engine = Engine::new(CliCommand::NPM);
-        let status = engine.run_command(&Config::new(Environment::Production).expect("cwd"));
+        let status = engine.run_command(&Config::new(Environment::Production));
 
         assert!(status.is_ok());
         match status {
@@ -118,7 +118,7 @@ mod tests {
             current_dir: "./app",
             arg: "start",
         };
-        let status = broken_engine.run_command(&Config::new(Environment::Development).expect("cwd"));
+        let status = broken_engine.run_command(&Config::new(Environment::Development));
         assert!(status.is_err());
     }
 
